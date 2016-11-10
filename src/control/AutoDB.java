@@ -33,7 +33,9 @@ public class AutoDB {
                                      "','"+auto.getFoto()+
                                      "','"+auto.getPapeles()+
                                      "','"+auto.getPuertas()+
-                                     "','"+auto.getLlantas()+"')";
+                                     "','"+auto.getLlantas()+
+                                     "','"+auto.getSeguro()+
+                                     "','"+auto.getLujo()+"')";
             
             int i  = stament.executeUpdate(query);
 
@@ -54,9 +56,9 @@ public class AutoDB {
             query = "SELECT * FROM Autos";
             rs = stament.executeQuery(query);
 
-            int    id;
+            int    id, lujo;
             String modelo, anio, foto;
-            byte   papeles, puertas, llantas;
+            byte   papeles, puertas, llantas, seguro;
                
             while(rs.next())
             {
@@ -67,7 +69,9 @@ public class AutoDB {
                 papeles=rs.getByte("papeles");
                 puertas=rs.getByte("puertas");
                 llantas=rs.getByte("llantas");
-                losAutos.add(new Auto(id,modelo,anio,foto,papeles,puertas,llantas));
+                seguro=rs.getByte("seguro");
+                lujo=rs.getInt("lujo");
+                losAutos.add(new Auto(id,modelo,anio,foto,papeles,puertas,llantas,lujo,seguro));
             }
         } catch(SQLException log) { JOptionPane.showMessageDialog(null, "Error, problema con la base de datos..."+log); }
         con.close();
@@ -96,7 +100,7 @@ public class AutoDB {
             {
                 rs.beforeFirst();
                 while(rs.next()) {
-                    auto = new Auto( rs.getInt("id"), rs.getString("modelo"), rs.getString("anio"), rs.getString("foto"), rs.getByte("papeles"), rs.getByte("puertas"), rs.getByte("llantas") );
+                    auto = new Auto( rs.getInt("id"), rs.getString("modelo"), rs.getString("anio"), rs.getString("foto"), rs.getByte("papeles"), rs.getByte("puertas"), rs.getByte("llantas"),  rs.getInt("lujo"), rs.getByte("seguro") );
                 }
             }
              
@@ -105,7 +109,7 @@ public class AutoDB {
      
         return auto;
     }
-    public static boolean eliminar(String rut) throws Exception {
+    public static boolean eliminar(String id) throws Exception {
         estado = false;
         con = new DataBase().conectar("Autos");
         try {
@@ -144,6 +148,8 @@ public class AutoDB {
                                    "',papeles='"+auto.getPapeles()+
                                    "',puertas='"+auto.getPuertas()+
                                    "',llantas='"+auto.getLlantas()+
+                                   "',seguro='"+auto.getSeguro()+
+                                   "',lujo='"+auto.getLujo()+
                                    "' WHERE id = '"+auto.getId()+"'";
             int mFila  = stament.executeUpdate(query);
 

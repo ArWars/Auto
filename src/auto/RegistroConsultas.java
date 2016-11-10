@@ -6,44 +6,47 @@
 package auto;
 
 import model.Auto;
-import static auto.Calculo.DESCUENTO_PERRO;
-import static auto.Calculo.DESCUENTO_PEZ;
 import static auto.Calculo.IVA;
+import static auto.Calculo.SEGURO;
+import java.util.Random;
 
 public class RegistroConsultas implements Calculo
 {
     private Auto auto;
-    private int chequeo;
-    private int remedios;
-    private int procedimiento;
-    private double totalCuenta;
-    private double descuento;
+    private int lujo;
+    private byte seguro;
+    private double totalInicial;
+    private double totalIVA;
+    private double totalSeguro;
+    private double totalLujo;
     private double totalFinal;
-    private double totallol;
         
-    public RegistroConsultas(Auto auto, int chequeo, int remedios, int procedimiento)
-    {
-        this.auto = mascota;
-        this.chequeo = chequeo;
-        this.remedios = remedios;
-        this.procedimiento= procedimiento;
+    public int Aleatorio(int min, int max) {
+        Random ran = new Random();
+        int x = ran.nextInt(max) + min;
+        return x;
     }
-    public Auto getMascota() { return mascota; }
-    public int getChequeo() { return chequeo; }
-    public int getRemedios() { return remedios; }
-    public int getProcedimiento() { return procedimiento; }
-    public double getTotalCuenta() { return totalCuenta; }
-    public double getDescuento() { return descuento; }
+    
+    public RegistroConsultas(Auto auto, byte seguro, int lujo)
+    {
+        this.auto = auto;
+        this.seguro = seguro;
+        this.lujo = lujo;
+    }
+    public Auto getAuto() { return auto; }
+    public int getSeguro() { return seguro; }
+    public int getLujo() { return lujo; }
+    public double getTotalInicial() { return totalInicial; }
+    public double getTotalIVA() { return totalIVA; }
+    public double getTotalSeguro() { return totalSeguro; }
+    public double getTotalLujo() { return totalLujo; }
     public double getTotalFinal() { return totalFinal; }
     
-    public void obtenerTotalCuenta(){
-        totalCuenta = chequeo + remedios + procedimiento;
-        totalCuenta=totalCuenta+(totalCuenta*IVA);
+    public void calcularPrecio(){
+        totalInicial = Aleatorio(1000000,15000000);
+        totalIVA = totalInicial * IVA;
+        totalSeguro = ( getSeguro() == 1 ) ? totalIVA*SEGURO:0;
+        totalLujo = totalSeguro * getLujo();
+        totalFinal = totalLujo;
     }
-    public void descontar()
-    {
-        if ( mascota instanceof Susuki ) descuento=totalCuenta*DESCUENTO_PERRO;
-        else descuento = totalCuenta*DESCUENTO_PEZ;
-    }
-    public void obtenerTotalFinal() { totalFinal = totalCuenta-descuento; }
 }

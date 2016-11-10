@@ -9,6 +9,7 @@ import auto.Datos;
 import auto.RegistroConsultas;
 import javax.swing.JOptionPane;
 import java.text.DecimalFormat;
+import static view.Registro.isNumeric;
 /**
  *
  * @author AriieelEsteban
@@ -24,17 +25,20 @@ public class Ventana extends javax.swing.JFrame {
     
     private void limpiar( boolean valor, int i ){
         if ( valor ) {
-            jTextFieldIva.setText("");
-            jTextFieldIvaLujo.setText("");
+            jTextFieldIva.setText("$0");
+            jTextFieldIvaLujo.setText("$0");
             jTextFieldID.setText("");
-            jTextFieldProcedimientos.setText("");
-            jTextFieldSeguro.setText("");
+            jTextFieldTotalFinal.setText("$0");
+            jTextFieldTotalInicial.setText("$0");
+            jTextFieldSeguro.setText("$0");
         }
         switch(i){
             case 0: { jTextFieldID.requestFocus(); } break;
-            case 1: { jTextFieldIva.requestFocus(); } break;
-            case 2: { jTextFieldProcedimientos.requestFocus(); } break;
+            case 1: { jTextFieldTotalInicial.requestFocus(); } break;
+            case 2: { jTextFieldIva.requestFocus(); } break;
             case 3: { jTextFieldSeguro.requestFocus(); } break;
+            case 4: { jTextFieldIvaLujo.requestFocus(); } break;
+            case 5: { jTextFieldTotalFinal.requestFocus(); } break;
             default: {
                 jTextFieldID.requestFocus();
             }
@@ -264,32 +268,27 @@ public class Ventana extends javax.swing.JFrame {
     private void jButtonCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCalcularActionPerformed
         // TODO add your handling code here:
         try{
-            if ( jTextFieldID.getText().isEmpty() ) { error("Error, ingresar un número de ficha."); limpiar(false,0); }
-            else if ( jTextFieldID.getText().length() > 5 ) { error("Error, por favor ingresar un número de ficha menor o igual a 5."); limpiar(false,0); }
-            else if ( jTextFieldIva.getText().trim().isEmpty() ) { error("Error, ingresar el precio del chequeo."); limpiar(false,1); }
-            else if ( !isNumeric(jTextFieldIva.getText()) ) { error("Error, el precio del chequeo debe ser numerico."); limpiar(false,1); }
-            else if ( Integer.parseInt(jTextFieldIva.getText().trim()) > 2000000000 ) { error("Error, ingresar el precio del chequeo menor a 2 millones."); limpiar(false,1); }
-            else if ( jTextFieldProcedimientos.getText().isEmpty() ) { error("Error, ingresar el precio de los procedimientos."); limpiar(false,2); }
-            else if ( !isNumeric(jTextFieldProcedimientos.getText()) ) { error("Error, el precio del procedimiento debe ser numerico."); limpiar(false,2); }
-            else if ( Integer.parseInt(jTextFieldProcedimientos.getText()) > 2000000000 ) { error("Error, ingresar un precio para los procedimientos menor a 2 millones."); limpiar(false,2); }
-            else if ( jTextFieldSeguro.getText().isEmpty() ) { error("Error, ingresar el precio de los remedios."); limpiar(false,3); }
-            else if ( !isNumeric(jTextFieldSeguro.getText()) ) { error("Error, el precio de los remedios deben ser numericos."); limpiar(false,1); }
-            else if ( Integer.parseInt(jTextFieldSeguro.getText()) > 2000000000 ) { error("Error, ingresar el precio de los remedios menor a 2 millones."); limpiar(false,3); }
+            if ( jTextFieldID.getText().isEmpty() ) { error("Error, por favor ingresar un id para el auto."); limpiar(false,0); }
+            else if ( !isNumeric(jTextFieldID.getText()) ) { error("Error, por favor ingresar un id numerico."); limpiar(false,0); }
+            else if ( Integer.parseInt(jTextFieldID.getText()) > 5 ) { error("Error, por favor ingresar un id menor o igual a 5."); limpiar(false,0); }
             else {
-                Auto auto = Datos.buscar( jTextFieldID.getText() );
+                Auto auto = Datos.buscar( Integer.parseInt( jTextFieldID.getText() ));
                 RegistroConsultas consulta = new RegistroConsultas(
                                             auto, 
-                                            Integer.parseInt(jTextFieldIva.getText().trim()),
-                                            Integer.parseInt(jTextFieldSeguro.getText()), 
-                                            Integer.parseInt(jTextFieldProcedimientos.getText()));
-                consulta.obtenerTotalCuenta();
-                consulta.descontar();
-                consulta.obtenerTotalFinal();
+                                            auto.getSeguro(),
+                                            auto.getLujo());
+                consulta.calcularPrecio();
                 
                 DecimalFormat formato = new DecimalFormat("###,###");
-                String descuento = formato.format(consulta.getDescuento()), totalCuenta = formato.format(consulta.getTotalCuenta()), totalFinal = formato.format(consulta.getTotalFinal());
-                jTextFieldIvaLujo.setText("$"+descuento);
-                jTextFieldTotalInicial.setText("$"+totalCuenta);
+                String totalInicial = formato.format(consulta.getTotalInicial()), 
+                       totalIva = formato.format(consulta.getTotalIVA()),
+                       totalSeguro = formato.format(consulta.getTotalSeguro()),
+                       totalLujo = formato.format(consulta.getTotalLujo()),
+                       totalFinal = formato.format(consulta.getTotalFinal());
+                jTextFieldTotalInicial.setText("$"+totalInicial);
+                jTextFieldIva.setText("$"+totalIva);
+                jTextFieldSeguro.setText("$"+totalSeguro);
+                jTextFieldIvaLujo.setText("$"+totalLujo);
                 jTextFieldTotalFinal.setText("$"+totalFinal);
             }
         } catch (Exception e) {
@@ -317,7 +316,7 @@ public class Ventana extends javax.swing.JFrame {
 
     private void jMenuItemListadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemListadoActionPerformed
         // TODO add your handling code here:
-        if ( Datos.obtenerAuto().isEmpty() ) error("Error, no hay mascotas guardadas.");
+        if ( Datos.obtenerAuto().isEmpty() ) error("Error, no hay autos guardados.");
         else {
             String texto="";
             for(Auto xx: Datos.obtenerAuto())
@@ -325,7 +324,7 @@ public class Ventana extends javax.swing.JFrame {
                 texto += xx.toString()+"\n";
             }
             JOptionPane.showMessageDialog(null,""+texto,
-                    "Listado de Pacientes", JOptionPane.PLAIN_MESSAGE);
+                    "Listado de Autos", JOptionPane.PLAIN_MESSAGE);
         }
     }//GEN-LAST:event_jMenuItemListadoActionPerformed
 

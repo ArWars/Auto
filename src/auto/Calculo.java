@@ -14,10 +14,7 @@ package auto;
 public interface Calculo
 {
     final double IVA = 0.19;
-    final double DESCUENTO_PERRO = 0.1;
-    final double DESCUENTO_PEZ = 0.2;
+    final double SEGURO = 2.0;
     
-    public void obtenerTotalCuenta();
-    public void descontar();
-    public void obtenerTotalFinal();
+    public void calcularPrecio();
 }

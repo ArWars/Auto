@@ -11,14 +11,14 @@ package model;
  * @author AriieelEsteban
  */
 public class Auto {
-    private int    id;
+    private int    id, lujo;
     private String modelo, anio, foto;
-    private byte   papeles, puertas, llantas;
+    private byte   papeles, puertas, llantas, seguro;
 
     public Auto(){
     }
     
-    public Auto(int id, String modelo, String anio, String foto, byte papeles, byte puertas, byte llantas, int lujo) {
+    public Auto(int id, String modelo, String anio, String foto, byte papeles, byte puertas, byte llantas, int lujo, byte seguro) {
         this.id = id;
         this.modelo = modelo;
         this.anio = anio;
@@ -26,6 +26,8 @@ public class Auto {
         this.papeles = papeles;
         this.puertas = puertas;
         this.llantas = llantas;
+        this.lujo = lujo;
+        this.seguro = seguro;
     }
 
     // LISTADO DE SETTERS
@@ -33,6 +35,10 @@ public class Auto {
         this.id = id;
     }
 
+    public void setLujo(int lujo) {
+        this.lujo = lujo;
+    }
+    
     public void setModelo(String modelo) {
         this.modelo = modelo;
     }
@@ -56,12 +62,20 @@ public class Auto {
     public void setLlantas(byte llantas) {
         this.llantas = llantas;
     }
+    
+    public void setSeguro(byte seguro) {
+        this.seguro = seguro;
+    }
 
     // LISTADO DE GETTERS
     public int getId() {
         return id;
     }
-
+    
+    public int getLujo() {
+        return lujo;
+    }
+    
     public String getModelo() {
         return modelo;
     }
@@ -86,6 +100,10 @@ public class Auto {
         return llantas;
     }
 
+    public byte getSeguro() {
+        return seguro;
+    }
+    
     @Override
     public String toString() {
         return "Auto{" + "id=" + id + ", modelo=" + modelo + ", anio=" + anio + ", foto=" + foto + ", papeles=" + papeles + ", puertas=" + puertas + ", llantas=" + llantas + '}';

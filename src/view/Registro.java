@@ -48,9 +48,8 @@ public class Registro extends javax.swing.JFrame {
             jTextFieldAnio.setText("");
             jTextFieldID.setText("");
             jTextFieldFoto.setText("");
-            buttonGroup1.clearSelection();
-            buttonGroup2.clearSelection();
-            buttonGroup3.clearSelection();
+            buttonGroupPapeles.clearSelection();
+            buttonGroupSeguro.clearSelection();
             
             jComboBoxLlantas.setSelectedIndex(0);
             jComboBoxLujo.setSelectedIndex(0);
@@ -79,10 +78,8 @@ public class Registro extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        buttonGroup1 = new javax.swing.ButtonGroup();
-        buttonGroup2 = new javax.swing.ButtonGroup();
-        jButton4 = new javax.swing.JButton();
-        buttonGroup3 = new javax.swing.ButtonGroup();
+        buttonGroupPapeles = new javax.swing.ButtonGroup();
+        buttonGroupSeguro = new javax.swing.ButtonGroup();
         jLabelModelo = new javax.swing.JLabel();
         jLabelAnio = new javax.swing.JLabel();
         jLabelPuertas = new javax.swing.JLabel();
@@ -110,8 +107,6 @@ public class Registro extends javax.swing.JFrame {
         jLabelLujo = new javax.swing.JLabel();
         jComboBoxLujo = new javax.swing.JComboBox<>();
 
-        jButton4.setText("jButton4");
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Registro");
 
@@ -130,10 +125,10 @@ public class Registro extends javax.swing.JFrame {
 
         jLabelPapeles.setText("Papeles al dia?");
 
-        buttonGroup2.add(jRadioButtonPapelesSi);
+        buttonGroupPapeles.add(jRadioButtonPapelesSi);
         jRadioButtonPapelesSi.setText("Si");
 
-        buttonGroup2.add(jRadioButtonPapelesNo);
+        buttonGroupPapeles.add(jRadioButtonPapelesNo);
         jRadioButtonPapelesNo.setText("No");
 
         jButtonAgregar.setText("Agregar");
@@ -181,12 +176,12 @@ public class Registro extends javax.swing.JFrame {
 
         jLabelFotoStr.setText("Foto:");
 
-        jLabelSeguro.setText("Seguro?");
+        jLabelSeguro.setText("Tiene Seguro?");
 
-        buttonGroup3.add(jRadioButtonSeguroSi);
+        buttonGroupSeguro.add(jRadioButtonSeguroSi);
         jRadioButtonSeguroSi.setText("Si");
 
-        buttonGroup3.add(jRadioButtonSeguroNo);
+        buttonGroupSeguro.add(jRadioButtonSeguroNo);
         jRadioButtonSeguroNo.setText("No");
 
         jLabelLujo.setText("Nivel de Lujo:");
@@ -234,9 +229,9 @@ public class Registro extends javax.swing.JFrame {
                                         .addComponent(jRadioButtonPapelesNo))))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabelPuertas)
-                                .addGap(18, 18, 18)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jComboBoxPuertas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
+                                .addGap(32, 32, 32)
                                 .addComponent(jLabelLlantas)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jComboBoxLlantas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -309,15 +304,16 @@ public class Registro extends javax.swing.JFrame {
                     .addComponent(jRadioButtonSeguroSi)
                     .addComponent(jRadioButtonSeguroNo))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonVolver)
-                    .addComponent(jLabelPuertas)
-                    .addComponent(jComboBoxPuertas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabelLlantas)
-                    .addComponent(jComboBoxLlantas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabelLujo)
-                        .addComponent(jComboBoxLujo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jComboBoxLujo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButtonVolver)
+                        .addComponent(jLabelPuertas)
+                        .addComponent(jComboBoxPuertas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabelLlantas)
+                        .addComponent(jComboBoxLlantas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -332,28 +328,24 @@ public class Registro extends javax.swing.JFrame {
     private void jButtonAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAgregarActionPerformed
         // TODO add your handling code here:
         try {
-            if ( jTextFieldID.getText().isEmpty() ) { error("Error, por favor ingresar un número de ficha."); limpiar(false,0); }
-            else if ( jTextFieldID.getText().length() > 5 ) { error("Error, por favor ingresar un número de ficha menor o igual a 5."); limpiar(false,0); }
+            if ( jTextFieldID.getText().isEmpty() ) { error("Error, por favor ingresar un id para el auto."); limpiar(false,0); }
+            else if ( !isNumeric(jTextFieldID.getText()) ) { error("Error, por favor ingresar un id numerico."); limpiar(false,0); }
+            else if ( jTextFieldID.getText().length() > 5 ) { error("Error, por favor ingresar un id menor o igual a 5."); limpiar(false,0); }
             else if ( jTextFieldModelo.getText().isEmpty() ) { error("Error, por favor ingresar el modelo."); limpiar(false,1); }
             else if ( jTextFieldModelo.getText().length() > 15 ) { error("Error, por favor ingresar un modelo entre 1 y 15 caracteres."); limpiar(false,1); }
-            else if ( jTextFieldAnio.getText().isEmpty() ) { error("Error, por favor ingresar la edad." ); limpiar(false,2); }
-            else if ( !isNumeric( jTextFieldAnio.getText() ) ) { error("Error, por favor ingresar la edad en números." ); limpiar(false,2); }
-            else if ( Integer.parseInt(jTextFieldAnio.getText()) < 1 || Integer.parseInt(jTextFieldAnio.getText()) > 200 ) { error("Error, por favor ingresar una edad entre 1 y 200." ); limpiar(false,2); }
-            else if ( jTextFieldFoto.getText().isEmpty() ) { error("Error, por favor ingresar el nombre de la foto."); limpiar(false,1); }
-            else if ( jTextFieldFoto.getText().length() > 15 ) { error("Error, por favor ingresar el nombre de la imagen entre 1 y 15 caracteres."); limpiar(false,1); }
+            else if ( jTextFieldModelo.getText().length() > 15 ) { error("Error, por favor ingresar un modelo entre 1 y 15 caracteres."); limpiar(false,1); }
+            else if ( jTextFieldAnio.getText().isEmpty() ) { error("Error, por favor ingresar el año del auto." ); limpiar(false,2); }
+            else if ( jTextFieldAnio.getText().length() < 1 || jTextFieldAnio.getText().length() > 50 ) { error("Error, por favor ingresar unaño entre 1 y 50 caracteres." ); limpiar(false,2); }
+            else if ( jTextFieldFoto.getText().isEmpty() ) { error("Error, por favor ingresar el nombre de la foto."); limpiar(false,3); }
+            else if ( jTextFieldFoto.getText().length() > 15 ) { error("Error, por favor ingresar el nombre de la imagen entre 1 y 15 caracteres."); limpiar(false,3); }
             else {
-                int id = Integer.parseInt(jTextFieldID.getText());
+                int id = Integer.parseInt(jTextFieldID.getText()), lujo = Integer.parseInt(jComboBoxLujo.getSelectedItem().toString());
                 String modelo = jTextFieldModelo.getText(), anio = jTextFieldAnio.getText(), foto = jTextFieldFoto.getText();
-                byte papeles = ( jRadioButtonPapelesSi.isEnabled() ) ? (byte)1:(byte)0, puertas = Byte.parseByte(jComboBoxPuertas.getSelectedItem().toString()), llantas = Byte.parseByte(jComboBoxLlantas.getSelectedItem().toString());
-                Auto auto = new Auto(id, 
-                                    modelo,
-                                    anio,
-                                    foto,
-                                    papeles,
-                                    puertas,
-                                    llantas);
+                byte papeles = ( jRadioButtonPapelesSi.isEnabled() ) ? (byte)1:(byte)0, seguro = ( jRadioButtonSeguroSi.isEnabled() ) ? (byte)1:(byte)0, puertas = Byte.parseByte(jComboBoxPuertas.getSelectedItem().toString()), llantas = Byte.parseByte(jComboBoxLlantas.getSelectedItem().toString());
+                Auto auto = new Auto(id, modelo, anio, foto, papeles,
+                                     puertas, llantas, lujo, seguro);
                 Datos.agregar(auto);
-                valido("Los datos del perro, fueron guardados.");
+                valido("Los datos del Auto, fueron guardados.");
                 limpiar(true,0);
             }
         } catch (Exception e) {
@@ -375,26 +367,22 @@ public class Registro extends javax.swing.JFrame {
     private void jButtonModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonModificarActionPerformed
         // TODO add your handling code here:
         try{
-            if ( jTextFieldID.getText().isEmpty() ) { error("Error, por favor ingresar un número de ficha."); limpiar(false,0); }
-            else if ( jTextFieldID.getText().length() > 5 ) { error("Error, por favor ingresar un número de ficha menor o igual a 5."); limpiar(false,0); }
+            if ( jTextFieldID.getText().isEmpty() ) { error("Error, por favor ingresar un id para el auto."); limpiar(false,0); }
+            else if ( !isNumeric(jTextFieldID.getText()) ) { error("Error, por favor ingresar un id numerico."); limpiar(false,0); }
+            else if ( jTextFieldID.getText().length() > 5 ) { error("Error, por favor ingresar un id menor o igual a 5."); limpiar(false,0); }
             else if ( jTextFieldModelo.getText().isEmpty() ) { error("Error, por favor ingresar el modelo."); limpiar(false,1); }
             else if ( jTextFieldModelo.getText().length() > 15 ) { error("Error, por favor ingresar un modelo entre 1 y 15 caracteres."); limpiar(false,1); }
-            else if ( jTextFieldAnio.getText().isEmpty() ) { error("Error, por favor ingresar la edad." ); limpiar(false,2); }
-            else if ( !isNumeric( jTextFieldAnio.getText() ) ) { error("Error, por favor ingresar la edad en números." ); limpiar(false,2); }
-            else if ( Integer.parseInt(jTextFieldAnio.getText()) < 1 || Integer.parseInt(jTextFieldAnio.getText()) > 200 ) { error("Error, por favor ingresar una edad entre 1 y 200." ); limpiar(false,2); }
-            else if ( jTextFieldFoto.getText().isEmpty() ) { error("Error, por favor ingresar el nombre de la foto."); limpiar(false,1); }
-            else if ( jTextFieldFoto.getText().length() > 15 ) { error("Error, por favor ingresar el nombre de la imagen entre 1 y 15 caracteres."); limpiar(false,1); }
+            else if ( jTextFieldModelo.getText().length() > 15 ) { error("Error, por favor ingresar un modelo entre 1 y 15 caracteres."); limpiar(false,1); }
+            else if ( jTextFieldAnio.getText().isEmpty() ) { error("Error, por favor ingresar el año del auto." ); limpiar(false,2); }
+            else if ( jTextFieldAnio.getText().length() < 1 || jTextFieldAnio.getText().length() > 50 ) { error("Error, por favor ingresar un año entre 1 y 50 caracteres." ); limpiar(false,2); }
+            else if ( jTextFieldFoto.getText().isEmpty() ) { error("Error, por favor ingresar el nombre de la foto."); limpiar(false,3); }
+            else if ( jTextFieldFoto.getText().length() > 15 ) { error("Error, por favor ingresar el nombre de la imagen entre 1 y 15 caracteres."); limpiar(false,3); }
             else {
-                int id = Integer.parseInt(jTextFieldID.getText());
+                int id = Integer.parseInt(jTextFieldID.getText()), lujo = Integer.parseInt(jComboBoxLujo.getSelectedItem().toString());
                 String modelo = jTextFieldModelo.getText(), anio = jTextFieldAnio.getText(), foto = jTextFieldFoto.getText();
-                byte papeles = ( jRadioButtonPapelesSi.isEnabled() ) ? (byte)1:(byte)0, puertas = Byte.parseByte(jComboBoxPuertas.getSelectedItem().toString()), llantas = Byte.parseByte(jComboBoxLlantas.getSelectedItem().toString());
-                Auto auto = new Auto(id, 
-                                    modelo,
-                                    anio,
-                                    foto,
-                                    papeles,
-                                    puertas,
-                                    llantas);
+                byte papeles = ( jRadioButtonPapelesSi.isEnabled() ) ? (byte)1:(byte)0, seguro = ( jRadioButtonSeguroSi.isEnabled() ) ? (byte)1:(byte)0, puertas = Byte.parseByte(jComboBoxPuertas.getSelectedItem().toString()), llantas = Byte.parseByte(jComboBoxLlantas.getSelectedItem().toString());
+                Auto auto = new Auto(id, modelo, anio, foto, papeles,
+                                     puertas, llantas, lujo, seguro);
                 Datos.modificar(auto);
                 valido("Los datos del Auto, fueron modificados.");
                 limpiar(true,0);
@@ -456,16 +444,14 @@ public class Registro extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Registro().setVisible(true);
+                new Ventana().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.ButtonGroup buttonGroup2;
-    private javax.swing.ButtonGroup buttonGroup3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.ButtonGroup buttonGroupPapeles;
+    private javax.swing.ButtonGroup buttonGroupSeguro;
     private javax.swing.JButton jButtonAgregar;
     private javax.swing.JButton jButtonBuscar;
     private javax.swing.JButton jButtonEliminar;
