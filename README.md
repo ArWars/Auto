@@ -1,2 +1,2 @@
-Trabajo de prueba, todo lo enseñado en clases de Programación I.
+Trabajo basico de practica para Prueba, Clase: Programación I.
 Inacap 2016 - Ingeniería en Informática
